@@ -3,29 +3,35 @@ var app = angular.module('ToDo',[]);
 		var todoList = [];
 
 		app.controller('todoController',function($scope, $http){
+
+			function fetch(){
+
+				$http.get("php/fetch.php")
+				.then(function (response) {
+					console.log(response.data.records);
+
+
+					$scope.todoList = response.data.records;
+					for(var i in response.data.records) {
+						if($scope.todoList[i].avaliable == 0) {
+							$scope.todoList[i].avaliable = false;
+						} else {
+							$scope.todoList[i].avaliable = true;
+						}
+
+						if($scope.todoList[i].done == 0) {
+							$scope.todoList[i].done = false;
+						} else {
+							$scope.todoList[i].done = true;
+						}
+					}
+					todoList.push(response.data.records);
+
+				});
+				setTimeout(function(){ fetch(); }, 2000);
+			}
 			
-			$http.get("php/fetch.php")
-			.then(function (response) {
-				console.log(response.data.records);
-
-
-				$scope.todoList = response.data.records;
-				for(var i in response.data.records) {
-					if($scope.todoList[i].avaliable == 0) {
-						$scope.todoList[i].avaliable = false;
-					} else {
-						$scope.todoList[i].avaliable = true;
-					}
-
-					if($scope.todoList[i].done == 0) {
-						$scope.todoList[i].done = false;
-					} else {
-						$scope.todoList[i].done = true;
-					}
-				}
-				todoList.push(response.data.records);
-			});
-
+			fetch();
 
 			$scope.insertItem = function(){
 

@@ -1,0 +1,79 @@
+	.container {
+		overflow: hidden;
+	}
+
+	input[type=checkbox] {
+		-ms-transform: scale(1.2); /* IE 9 */
+	    -webkit-transform: scale(1.2); /* Safari */
+	    transform: scale(1.2);
+	    margin-right: 10px;
+	}
+
+	input.insert-input {
+		font-size: 20px!important;
+	}
+
+	.btn-remove-all {
+		margin-bottom: 25px;
+		margin-top: 50px;
+	}
+
+	.ul-list {
+		margin-top: 50px;
+	}
+
+	.div-name {
+		max-width: 59%;
+		display: inline-block;
+	}
+
+	.edit-block {
+		display: none;
+	}
+
+	.edit-input {
+		display: inline-block;
+    	width: 80%;
+	}
+
+
+
+	.todo-name input[type=checkbox] {
+		position: relative;top: 2px;
+	}
+
+	.todo-avaliable {
+		font-size: 12px;
+		font-weight: 400;
+		position: relative;
+		top: -5px;
+	}
+
+	.todo-avaliable input[type=checkbox] {
+		position: relative;
+		top: 3px;
+	}
+
+	.todo-remove {
+		margin-left: 10px;
+		position: relative;
+		top: -3px;
+	}
+
+	.todo-edit {
+		position: relative;
+		top: -3px;
+		margin-left: 20px;
+	}
+
+	.done {
+		background-color: #5CB85C;
+	}
+
+	.notavaliable {
+		background-color: #F0AD4E;
+	}
+
+
+	
+

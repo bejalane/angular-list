@@ -1,14 +1,15 @@
-var app = angular.module('ToDo',[]);
+var app = angular.module('ToDo',['login']);
 
 		var todoList = [];
 
-		app.controller('todoController',function($scope, $http){
+		app.controller('todoController',function($scope, $http, $rootScope){
 
 			function fetch(){
 
-				$http.get("php/fetch.php")
+				$http.post("php/fetch.php", {'row':$rootScope.userId})
 				.then(function (response) {
 					console.log(response.data.records);
+					console.log('USER '+ $rootScope.userId);
 
 
 					$scope.todoList = response.data.records;
@@ -28,20 +29,32 @@ var app = angular.module('ToDo',[]);
 					todoList.push(response.data.records);
 
 				});
-				setTimeout(function(){ fetch(); }, 2000);
+				setTimeout(function(){ 
+					if($rootScope.loggedIn == true){
+						fetch();
+					}
+				}, 2000);
+			}
+
+			if($rootScope.loggedIn == true){
+				fetch();
 			}
 			
-			fetch();
+			
 
 			$scope.insertItem = function(){
 
+				
+				$scope.deal = $scope.deal.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+
 				if( $scope.deal != '' && $scope.deal != undefined ){
 
-					$http.post("php/insert.php",{'name':$scope.deal, 'done':0, 'avaliable':0, 'row':0})
+					$http.post("php/insert.php",{'name':$scope.deal, 'done':0, 'avaliable':0, 'row':$rootScope.userId})
 					.success(function(data,status,headers,config){
 						console.log(data + "data inserted successfully");
 
 						console.log(data);
+						console.log($rootScope.userId);
 						if(data.avaliable == 0) {
 							data.avaliable = false;
 						} else {
@@ -137,3 +150,21 @@ var app = angular.module('ToDo',[]);
 			}
 			
 		});
+
+
+app.controller('logoutCtrl',function($scope, $http, $rootScope, $location){
+	$scope.logout = function(){
+		$http.post("php/logout.php", {'userId':$rootScope.userId})
+				.then(function (response) {
+					console.log(response.data)
+					if(response.data == 'nocookies') {
+						$rootScope.userId = 'nocookies';
+						$rootScope.loggedIn = false;
+						console.log($rootScope.loggedIn);
+						console.log($rootScope.userId);
+						$location.path('/');
+					}
+
+		});
+	}
+});

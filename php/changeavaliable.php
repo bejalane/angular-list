@@ -6,7 +6,7 @@ $avaliable = $data->avaliable;
 
 // Connect to database
 
-$con=mysqli_connect("localhost","root","","angularlist");
+require 'mysqlconnect.php';
 // Check connection
 if (mysqli_connect_errno())
   {
@@ -19,7 +19,6 @@ if ($con->query($sql) === TRUE) {
 
   $sql2="SELECT * FROM freelist WHERE id='$id'";
   $result=mysqli_query($con,$sql2);
-
 
     while($row =mysqli_fetch_assoc($result))
     {

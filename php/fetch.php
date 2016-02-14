@@ -1,10 +1,14 @@
 <?php
+
+$data = json_decode(file_get_contents("php://input"));
+$row = $data->row;
+
 header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json; charset=UTF-8");
 
-$conn = new mysqli("localhost","root","","angularlist");
+require 'mysqlconnect.php';
 
-$result = $conn->query("SELECT name, done, avaliable, id FROM freelist");
+$result = $con->query("SELECT name, done, avaliable, id, row FROM freelist WHERE row='$row'");
 
 $outp = "";
 while($rs = $result->fetch_array(MYSQLI_ASSOC)) {
@@ -12,11 +16,12 @@ while($rs = $result->fetch_array(MYSQLI_ASSOC)) {
     $outp .= '{"name":"'  . $rs["name"] . '",';
     $outp .= '"done":"'   . $rs["done"]        . '",';
     $outp .= '"id":"'   . $rs["id"]        . '",';
+    $outp .= '"row":"'   . $rs["row"]        . '",';
     $outp .= '"avaliable":"'. $rs["avaliable"]     . '"}';
 
 }
 $outp ='{"records":['.$outp.']}';
-$conn->close();
+$con->close();
 
 echo($outp);
 ?>

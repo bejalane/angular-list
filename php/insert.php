@@ -9,7 +9,7 @@ $avaliable = $data->avaliable;
 
 // Connect to database
 
-$con=mysqli_connect("localhost","root","","angularlist");
+require 'mysqlconnect.php';
 // Check connection
 if (mysqli_connect_errno())
   {
